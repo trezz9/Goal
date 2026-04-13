@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnCode — Online Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-light: #eef2ff;
+  --primary-dark: #3730a3;
+  --accent: #f59e0b;
+  --accent-light: #fef3c7;
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --text: #1e293b;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+button { cursor: pointer; font-family: 'Nunito', sans-serif; }
+input, select, textarea { font-family: 'Nunito', sans-serif; }
+
+/* ===== SCREENS ===== */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ===== LANDING ===== */
+#landing { min-height: 100vh; background: #fff; }
+
+/* NAV */
+.land-nav {
+display: flex; align-items: center; justify-content: space-between;
+padding: 1.1rem 5%;
+border-bottom: 1px solid var(–border);
+background: #fff; position: sticky; top: 0; z-index: 100;
+box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.brand { font-size: 1.5rem; font-weight: 900; color: var(–primary); letter-spacing: -0.03em; }
+.brand span { color: var(–accent); }
+.land-nav-links { display: flex; gap: 2rem; align-items: center; }
+.land-nav-links a { text-decoration: none; color: var(–text2); font-weight: 600; font-size: 0.92rem; transition: color 0.15s; }
+.land-nav-links a:hover { color: var(–primary); }
+.btn { padding: 0.55rem 1.3rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; transition: all 0.15s; }
+.btn-outline { background: transparent; border: 2px solid var(–primary); color: var(–primary); }
+.btn-outline:hover { background: var(–primary-light); }
+.btn-primary { background: var(–primary); color: #fff; }
+.btn-primary:hover { background: var(–primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+.btn-accent { background: var(–accent); color: #fff; }
+.btn-accent:hover { background: #d97706; }
+.btn-success { background: var(–success); color: #fff; }
+.btn-lg { padding: 0.85rem 2rem; font-size: 1rem; border-radius: 10px; }
+
+/* HERO */
+.hero { padding: 5rem 5% 4rem; text-align: center; background: linear-gradient(180deg, #f0f4ff 0%, #fff 100%); }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(–primary-light); color: var(–primary); font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.5rem; border: 1px solid rgba(79,70,229,0.15); }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1.2rem; color: var(–text); }
+.hero h1 em { font-style: normal; color: var(–primary); }
+.hero-sub { font-size: 1.1rem; color: var(–text2); max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.7; }
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+.hero-stats { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; }
+.hstat { text-align: center; }
+.hstat-num { font-size: 1.8rem; font-weight: 900; color: var(–text); letter-spacing: -0.03em; }
+.hstat-num span { color: var(–primary); }
+.hstat-label { font-size: 0.78rem; color: var(–text3); font-weight: 600; }
+
+/* LANGUAGE CARDS */
+.section { padding: 4rem 5%; }
+.sec-title { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.sec-sub { color: var(–text2); margin-bottom: 2.5rem; font-size: 0.95rem; }
+.lang-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+.lang-card {
+background: #fff; border: 1px solid var(–border); border-radius: var(–radius);
+padding: 1.5rem; cursor: pointer; transition: all 0.2s;
+display: flex; flex-direction: column; gap: 0.8rem;
+}
+.lang-card:hover { border-color: var(–primary); box-shadow: var(–shadow-md); transform: translateY(-3px); }
+.lang-icon { font-size: 2.2rem; }
+.lang-name { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; }
+.lang-desc { font-size: 0.8rem; color: var(–text2); line-height: 1.5; }
+.lang-meta { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.chip { font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 100px; }
+.chip-blue { background: var(–primary-light); color: var(–primary); }
+.chip-green { background: var(–success-light); color: var(–success); }
+.chip-yellow { background: var(–accent-light); color: #92400e; }
+.chip-red { background: var(–danger-light); color: var(–danger); }
+.lang-progress { height: 4px; background: var(–border); border-radius: 10px; margin-top: 0.5rem; overflow: hidden; }
+.lang-progress-bar { height: 100%; background: linear-gradient(90deg, var(–primary), #818cf8); border-radius: 10px; transition: width 0.5s ease; }
+.enroll-btn { margin-top: auto; padding: 0.55rem; border-radius: 8px; background: var(–primary-light); color: var(–primary); font-weight: 700; font-size: 0.82rem; border: none; cursor: pointer; transition: all 0.15s; }
+.enroll-btn:hover { background: var(–primary); color: #fff; }
+
+/* HOW IT WORKS */
+.how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.how-step { text-align: center; padding: 1.5rem 1rem; }
+.how-num { width: 52px; height: 52px; background: var(–primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; margin: 0 auto 1rem; }
+.how-step h4 { font-weight: 800; margin-bottom: 0.4rem; }
+.how-step p { font-size: 0.82rem; color: var(–text2); line-height: 1.5; }
+
+/* ===== AUTH ===== */
+#auth { min-height: 100vh; background: linear-gradient(135deg, #f0f4ff 0%, #fef9f0 100%); display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.auth-box { background: #fff; border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 440px; box-shadow: var(–shadow-lg); }
+.auth-logo { font-size: 1.5rem; font-weight: 900; color: var(–primary); letter-spacing: -0.03em; margin-bottom: 1.5rem; text-align: center; }
+.auth-tabs { display: flex; background: var(–bg); border-radius: 10px; padding: 4px; margin-bottom: 1.8rem; }
+.auth-tab { flex: 1; padding: 0.6rem; text-align: center; font-weight: 700; font-size: 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.15s; color: var(–text3); border: none; background: transparent; }
+.auth-tab.active { background: #fff; color: var(–primary); box-shadow: var(–shadow); }
+.form-group { margin-bottom: 1.1rem; }
+.form-group label { display: block; font-weight: 700; font-size: 0.82rem; color: var(–text2); margin-bottom: 0.4rem; }
+.form-group input, .form-group select {
+width: 100%; padding: 0.7rem 1rem; border: 1.5px solid var(–border); border-radius: 8px;
+font-size: 0.9rem; transition: border-color 0.15s; outline: none; background: #fff;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(–primary); }
+.form-role { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-bottom: 1.1rem; }
+.role-btn { padding: 0.8rem; border: 2px solid var(–border); border-radius: 10px; background: #fff; cursor: pointer; text-align: center; transition: all 0.15s; }
+.role-btn.active { border-color: var(–primary); background: var(–primary-light); }
+.role-btn .role-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.role-btn .role-label { font-size: 0.8rem; font-weight: 700; color: var(–text2); }
+.role-btn.active .role-label { color: var(–primary); }
+.auth-submit { width: 100%; padding: 0.85rem; background: var(–primary); color: #fff; border: none; border-radius: 10px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.15s; margin-top: 0.5rem; }
+.auth-submit:hover { background: var(–primary-dark); }
+.auth-err { color: var(–danger); font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+.auth-hint { text-align: center; font-size: 0.78rem; color: var(–text3); margin-top: 1rem; }
+.auth-hint a { color: var(–primary); cursor: pointer; font-weight: 700; }
+
+/* ===== APP SHELL ===== */
+#app { display: none; min-height: 100vh; }
+#app.active { display: flex; }
+.sidebar {
+width: 240px; flex-shrink: 0; background: #fff; border-right: 1px solid var(–border);
+display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-logo { padding: 1.4rem 1.5rem; font-size: 1.3rem; font-weight: 900; color: var(–primary); border-bottom: 1px solid var(–border); }
+.sidebar-logo span { color: var(–accent); }
+.sidebar-user { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(–border); }
+.avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(–primary), #818cf8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0; }
+.sidebar-username { font-weight: 700; font-size: 0.88rem; }
+.sidebar-role { font-size: 0.7rem; color: var(–text3); }
+.sidebar-nav { padding: 0.8rem 0; flex: 1; }
+.nav-section { padding: 0.5rem 1.5rem 0.3rem; font-size: 0.65rem; font-weight: 800; color: var(–text3); text-transform: uppercase; letter-spacing: 0.08em; }
+.nav-item {
+display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem;
+font-size: 0.88rem; font-weight: 600; color: var(–text2); cursor: pointer;
+transition: all 0.12s; text-decoration: none; border-left: 3px solid transparent;
+}
+.nav-item:hover { background: var(–bg); color: var(–primary); }
+.nav-item.active { background: var(–primary-light); color: var(–primary); border-left-color: var(–primary); font-weight: 700; }
+.nav-item .ni { font-size: 1rem; }
+.sidebar-bottom { padding: 1rem 1.5rem; border-top: 1px solid var(–border); }
+
+/* MAIN CONTENT */
+.main { flex: 1; overflow-y: auto; background: var(–bg); }
+.topbar { background: #fff; border-bottom: 1px solid var(–border); padding: 0.9rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+.topbar-title { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; }
+.topbar-right { display: flex; align-items: center; gap: 1rem; }
+.notif-btn { position: relative; background: var(–bg); border: 1px solid var(–border); border-radius: 8px; padding: 0.5rem 0.65rem; cursor: pointer; font-size: 0.95rem; }
+.notif-dot { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; background: var(–danger); border-radius: 50%; border: 1.5px solid #fff; }
+.page { display: none; padding: 2rem; }
+.page.active { display: block; }
+
+/* CARDS */
+.card { background: #fff; border: 1px solid var(–border); border-radius: var(–radius); padding: 1.5rem; }
+.card-sm { padding: 1.1rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+.stat-card { background: #fff; border: 1px solid var(–border); border-radius: var(–radius); padding: 1.3rem; display: flex; align-items: center; gap: 1rem; }
+.stat-icon { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.stat-icon.blue { background: var(–primary-light); }
+.stat-icon.green { background: var(–success-light); }
+.stat-icon.yellow { background: var(–accent-light); }
+.stat-icon.red { background: var(–danger-light); }
+.stat-val { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+.stat-lbl { font-size: 0.72rem; color: var(–text3); font-weight: 600; margin-top: 0.2rem; }
+
+/* PROGRESS BAR */
+.prog-bar { height: 8px; background: var(–border); border-radius: 10px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+.prog-fill.blue { background: linear-gradient(90deg, var(–primary), #818cf8); }
+.prog-fill.green { background: linear-gradient(90deg, var(–success), #34d399); }
+.prog-fill.yellow { background: linear-gradient(90deg, var(–accent), #fcd34d); }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th { text-align: left; padding: 0.7rem 1rem; font-size: 0.72rem; font-weight: 800; color: var(–text3); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(–border); background: var(–bg); }
+td { padding: 0.85rem 1rem; border-bottom: 1px solid var(–border); color: var(–text); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(–bg); }
+
+/* COURSE GRID */
+.course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+.course-card { background: #fff; border: 1px solid var(–border); border-radius: var(–radius); overflow: hidden; transition: all 0.2s; cursor: pointer; }
+.course-card:hover { transform: translateY(-3px); box-shadow: var(–shadow-md); }
+.course-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+.course-body { padding: 1.1rem; }
+.course-lang-tag { font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 100px; display: inline-block; margin-bottom: 0.5rem; }
+.course-title { font-weight: 800; font-size: 0.95rem; letter-spacing: -0.01em; margin-bottom: 0.3rem; line-height: 1.3; }
+.course-meta { font-size: 0.75rem; color: var(–text3); display: flex; gap: 0.7rem; margin-bottom: 0.7rem; }
+.course-prog { margin-bottom: 0.7rem; }
+.course-prog-label { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; color: var(–text2); margin-bottom: 0.3rem; }
+.course-actions { display: flex; gap: 0.5rem; }
+.course-actions button { flex: 1; padding: 0.5rem; border-radius: 7px; font-size: 0.78rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.12s; }
+.course-btn-main { background: var(–primary); color: #fff; }
+.course-btn-main:hover { background: var(–primary-dark); }
+.course-btn-sec { background: var(–bg); color: var(–text2); border: 1px solid var(–border) !important; }
+
+/* QUIZ */
+.quiz-card { max-width: 680px; background: #fff; border-radius: 16px; padding: 2rem; border: 1px solid var(–border); }
+.quiz-progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(–text2); margin-bottom: 0.5rem; }
+.q-text { font-weight: 800; font-size: 1.05rem; margin: 1.5rem 0 1.2rem; line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 0.7rem; }
+.q-option { padding: 0.9rem 1.2rem; border: 2px solid var(–border); border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.15s; display: flex; align-items: center; gap: 0.8rem; }
+.q-option:hover { border-color: var(–primary); background: var(–primary-light); color: var(–primary); }
+.q-option.selected { border-color: var(–primary); background: var(–primary-light); color: var(–primary); }
+.q-option.correct { border-color: var(–success); background: var(–success-light); color: var(–success); }
+.q-option.wrong { border-color: var(–danger); background: var(–danger-light); color: var(–danger); }
+.q-opt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(–border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+.quiz-nav { display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+.quiz-result { text-align: center; padding: 2rem; }
+.quiz-score { font-size: 3.5rem; font-weight: 900; color: var(–primary); letter-spacing: -0.05em; }
+.quiz-score-sub { font-size: 1rem; color: var(–text2); margin-bottom: 1.5rem; }
+
+/* ADMIN */
+.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+.section-header h3 { font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; }
+.add-btn { padding: 0.5rem 1rem; background: var(–primary); color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
+.add-btn:hover { background: var(–primary-dark); }
+.badge { display: inline-flex; align-items: center; padding: 0.2rem 0.6rem; border-radius: 100px; font-size: 0.7rem; font-weight: 700; }
+.badge-success { background: var(–success-light); color: var(–success); }
+.badge-warning { background: var(–accent-light); color: #92400e; }
+.badge-danger { background: var(–danger-light); color: var(–danger); }
+.badge-primary { background: var(–primary-light); color: var(–primary); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 16px; padding: 2rem; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; box-shadow: var(–shadow-lg); animation: modalIn 0.2s ease; }
+@keyframes modalIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.modal-header h3 { font-weight: 800; font-size: 1.1rem; }
+.modal-close { background: var(–bg); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+textarea { width: 100%; padding: 0.7rem 1rem; border: 1.5px solid var(–border); border-radius: 8px; resize: vertical; font-size: 0.9rem; min-height: 80px; outline: none; }
+textarea:focus { border-color: var(–primary); }
+
+/* LESSON VIEWER */
+.lesson-viewer { max-width: 820px; }
+.lesson-video { background: #1e293b; border-radius: var(–radius); height: 380px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: #fff; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
+.play-btn { width: 64px; height: 64px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; border: 2px solid rgba(255,255,255,0.3); transition: all 0.2s; }
+.play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+.lesson-tabs { display: flex; border-bottom: 1px solid var(–border); margin-bottom: 1.5rem; }
+.lesson-tab { padding: 0.7rem 1.2rem; font-weight: 700; font-size: 0.85rem; color: var(–text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.lesson-tab.active { color: var(–primary); border-bottom-color: var(–primary); }
+.lesson-content { font-size: 0.9rem; line-height: 1.7; color: var(–text2); }
+.code-block { background: #1e293b; color: #e2e8f0; padding: 1.2rem; border-radius: 10px; font-family: ‘JetBrains Mono’, monospace; font-size: 0.8rem; line-height: 1.7; overflow-x: auto; margin: 1rem 0; }
+.kw { color: #c084fc; }
+.fn { color: #67e8f9; }
+.str { color: #86efac; }
+.cm { color: #64748b; }
+
+/* NOTIFICATIONS */
+.toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(–text); color: #fff; padding: 0.9rem 1.4rem; border-radius: 10px; font-weight: 700; font-size: 0.88rem; z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.3s; max-width: 320px; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(–success); }
+.toast.error { background: var(–danger); }
+
+/* PROFILE */
+.profile-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(–primary), #818cf8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 2rem; }
+.streak-badge { display: flex; align-items: center; gap: 0.4rem; background: var(–accent-light); color: #92400e; padding: 0.3rem 0.8rem; border-radius: 100px; font-size: 0.78rem; font-weight: 700; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+.sidebar { display: none; }
+.stats-grid { grid-template-columns: 1fr 1fr; }
+.how-grid { grid-template-columns: 1fr 1fr; }
+.admin-grid { grid-template-columns: 1fr; }
+.form-row { grid-template-columns: 1fr; }
+}
+
+.empty-state { text-align: center; padding: 3rem; color: var(–text3); }
+.empty-state .ei { font-size: 3rem; margin-bottom: 0.7rem; }
+.empty-state p { font-size: 0.9rem; }
+
+.search-bar { display: flex; align-items: center; gap: 0.5rem; background: var(–bg); border: 1px solid var(–border); border-radius: 8px; padding: 0.5rem 0.9rem; }
+.search-bar input { border: none; background: transparent; outline: none; font-size: 0.88rem; font-family: ‘Nunito’, sans-serif; width: 200px; }
+</style>
+
+</head>
+<body>
+
+<!-- ===== LANDING ===== -->
+
+<div id="landing" class="screen active">
+  <nav class="land-nav">
+    <div class="brand">Learn<span>Code</span></div>
+    <div class="land-nav-links">
+      <a href="#courses-section">Courses</a>
+      <a href="#how-section">How It Works</a>
+      <button class="btn btn-outline" onclick="showAuth('login')">Sign In</button>
+      <button class="btn btn-primary" onclick="showAuth('signup')">Get Started Free</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-badge">🎓 100+ Hours · 6 Languages · Certificate Included</div>
+    <h1>Learn to Code.<br><em>Earn Your Certificate.</em></h1>
+    <p class="hero-sub">Join thousands of beginners mastering Python, JavaScript, Java, and more — with structured lessons, quizzes, and real projects. All at your own pace.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">🚀 Start Learning Free</button>
+      <button class="btn btn-outline btn-lg" onclick="demoLogin('student')">👀 Preview as Student</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">12<span>K+</span></div><div class="hstat-label">Students Enrolled</div></div>
+      <div class="hstat"><div class="hstat-num">6</div><div class="hstat-label">Programming Languages</div></div>
+      <div class="hstat"><div class="hstat-num">105<span>+</span></div><div class="hstat-label">Hours of Content</div></div>
+      <div class="hstat"><div class="hstat-num">98<span>%</span></div><div class="hstat-label">Completion Rate</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="courses-section" style="background:#f8fafc;">
+    <div class="sec-title">🌐 Choose Your Language</div>
+    <div class="sec-sub">Beginner-friendly courses sourced from top platforms (freeCodeCamp, CS50, Codecademy, The Odin Project)</div>
+    <div class="lang-grid" id="landLangGrid"></div>
+  </div>
+
+  <div class="section" id="how-section">
+    <div class="sec-title">How It Works</div>
+    <div class="sec-sub">Simple, structured, and effective</div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h4>Pick a Language</h4>
+        <p>Choose from Python, JavaScript, Java, C++, HTML/CSS or SQL — all beginner-friendly.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h4>Watch & Practice</h4>
+        <p>Follow structured video lessons and code along with hands-on exercises.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h4>Take Quizzes</h4>
+        <p>Test your knowledge after each module with auto-graded quizzes.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <h4>Get Certified</h4>
+        <p>Complete the capstone project and earn your verified certificate.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="background: var(--primary); padding: 4rem 5%; text-align: center; color: #fff;">
+    <h2 style="font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.8rem;">Ready to start your coding journey?</h2>
+    <p style="opacity: 0.8; margin-bottom: 1.8rem;">Join for free. No credit card required.</p>
+    <button class="btn btn-accent btn-lg" onclick="showAuth('signup')">Create Free Account →</button>
+  </div>
+
+  <footer style="background:#1e293b; color:#94a3b8; text-align:center; padding: 2rem; font-size: 0.82rem;">
+    © 2026 LearnCode Platform · Built for beginners worldwide 🌍
+  </footer>
+</div>
+
+<!-- ===== AUTH ===== -->
+
+<div id="auth" class="screen">
+  <div class="auth-box">
+    <div class="auth-logo">Learn<span style="color:var(--accent)">Code</span></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="signupTab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    <div id="loginForm">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" value="student@demo.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" value="demo123">
+      </div>
+      <div id="loginErr" class="auth-err">Invalid email or password.</div>
+      <button class="auth-submit" onclick="doLogin()">Sign In →</button>
+      <div class="auth-hint">
+        Demo accounts: <a onclick="fillDemo('student')">Student</a> · <a onclick="fillDemo('admin')">Admin</a>
+      </div>
+    </div>
+    <div id="signupForm" style="display:none;">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="signupEmail" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Create a password">
+      </div>
+      <div style="font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.5rem;">I am a:</div>
+      <div class="form-role">
+        <div class="role-btn active" id="roleStudent" onclick="selectRole('student')">
+          <div class="role-icon">🎓</div>
+          <div class="role-label">Student</div>
+        </div>
+        <div class="role-btn" id="roleAdmin" onclick="selectRole('admin')">
+          <div class="role-icon">👨‍💼</div>
+          <div class="role-label">Instructor</div>
+        </div>
+      </div>
+      <div id="signupErr" class="auth-err">Please fill in all fields.</div>
+      <button class="auth-submit" onclick="doSignup()">Create Account →</button>
+    </div>
+    <div style="text-align:center; margin-top:1.2rem;">
+      <button onclick="showScreen('landing')" style="background:none; border:none; color:var(--text3); font-size:0.8rem; cursor:pointer;">← Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+
+<div id="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">Learn<span>Code</span></div>
+    <div class="sidebar-user">
+      <div class="avatar" id="sideAvatar">S</div>
+      <div>
+        <div class="sidebar-username" id="sideUsername">Student</div>
+        <div class="sidebar-role" id="sideRole">Student</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-bottom">
+      <div class="nav-item" onclick="logout()" style="color:var(--danger);">
+        <span class="ni">🚪</span> Sign Out
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <span>🔍</span>
+          <input placeholder="Search courses...">
+        </div>
+        <button class="notif-btn" onclick="showToast('No new notifications','success')">🔔<span class="notif-dot"></span></button>
+        <div class="avatar" id="topAvatar" style="cursor:pointer;" onclick="navigate('profile')">S</div>
+      </div>
+    </div>
+
+```
+<!-- STUDENT PAGES -->
+<div id="page-dashboard" class="page active">
+  <div id="welcomeBanner" style="background:linear-gradient(135deg,var(--primary),#818cf8); color:#fff; border-radius:var(--radius); padding:1.5rem 2rem; margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between;">
+    <div>
+      <div style="font-size:1.3rem; font-weight:900; letter-spacing:-0.02em;" id="welcomeMsg">Welcome back! 👋</div>
+      <div style="opacity:0.85; font-size:0.88rem; margin-top:0.3rem;">Continue where you left off</div>
+    </div>
+    <div class="streak-badge" style="background:rgba(255,255,255,0.2); color:#fff;">🔥 3 Day Streak</div>
+  </div>
+  <div class="stats-grid" id="dashStats"></div>
+  <div style="display:grid; grid-template-columns:2fr 1fr; gap:1.5rem;">
+    <div class="card">
+      <div class="section-header"><h3>📚 My Courses</h3><button class="add-btn" onclick="navigate('courses')">Browse All</button></div>
+      <div id="myCoursesList"></div>
+    </div>
+    <div class="card">
+      <div class="section-header"><h3>🏆 Achievements</h3></div>
+      <div id="achievements"></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-courses" class="page">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem;">
+    <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em;">All Courses</h2>
+    <div style="display:flex; gap:0.7rem; flex-wrap:wrap;" id="langFilters"></div>
+  </div>
+  <div class="course-grid" id="allCoursesGrid"></div>
+</div>
+
+<div id="page-lesson" class="page">
+  <button onclick="navigate('courses')" style="background:none; border:none; color:var(--primary); font-weight:700; cursor:pointer; margin-bottom:1rem;">← Back to Courses</button>
+  <div class="lesson-viewer">
+    <div id="lessonHeader" style="margin-bottom:1rem;"></div>
+    <div class="lesson-video" id="lessonVideo"></div>
+    <div class="lesson-tabs">
+      <div class="lesson-tab active" onclick="switchLessonTab('overview',this)">Overview</div>
+      <div class="lesson-tab" onclick="switchLessonTab('code',this)">Code Example</div>
+      <div class="lesson-tab" onclick="switchLessonTab('quiz',this)">Quick Quiz</div>
+    </div>
+    <div class="lesson-content" id="lessonContent"></div>
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+      <button class="btn btn-primary" id="lessonNextBtn" onclick="completeLesson()">✅ Mark Complete & Continue</button>
+      <button class="btn btn-outline" onclick="navigate('quiz')">📝 Take Full Quiz</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-quiz" class="page">
+  <button onclick="navigate('courses')" style="background:none; border:none; color:var(--primary); font-weight:700; cursor:pointer; margin-bottom:1rem;">← Back</button>
+  <div class="quiz-card" id="quizContainer"></div>
+</div>
+
+<div id="page-progress" class="page">
+  <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em; margin-bottom:1.5rem;">My Progress</h2>
+  <div id="progressContent"></div>
+</div>
+
+<div id="page-profile" class="page">
+  <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em; margin-bottom:1.5rem;">My Profile</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+    <div class="card">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">S</div>
+        <div>
+          <div style="font-weight:900; font-size:1.2rem;" id="profileName">Student</div>
+          <div style="font-size:0.82rem; color:var(--text3);" id="profileEmail">student@demo.com</div>
+          <div class="streak-badge" style="margin-top:0.5rem; display:inline-flex;">🔥 3 Day Streak</div>
+        </div>
+      </div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="profileNameInput"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="profileEmailInput"></div>
+      <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:800; margin-bottom:1rem;">🏅 Certificates Earned</h3>
+      <div id="certList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PAGES -->
+<div id="page-admin-dashboard" class="page">
+  <div class="stats-grid" id="adminStats"></div>
+  <div class="admin-grid">
+    <div class="card">
+      <div class="section-header"><h3>👥 Recent Students</h3></div>
+      <div class="table-wrap"><table id="studentsTable"></table></div>
+    </div>
+    <div class="card">
+      <div class="section-header"><h3>📈 Course Enrollment</h3></div>
+      <div id="enrollChart"></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-admin-students" class="page">
+  <div class="section-header" style="margin-bottom:1.5rem;">
+    <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em;">Student Management</h2>
+    <button class="add-btn" onclick="openAddStudentModal()">+ Add Student</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap"><table id="fullStudentsTable"></table></div>
+  </div>
+</div>
+
+<div id="page-admin-courses" class="page">
+  <div class="section-header" style="margin-bottom:1.5rem;">
+    <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em;">Course Management</h2>
+    <button class="add-btn" onclick="openAddCourseModal()">+ Add Course</button>
+  </div>
+  <div class="course-grid" id="adminCoursesGrid"></div>
+</div>
+
+<div id="page-admin-quizzes" class="page">
+  <div class="section-header" style="margin-bottom:1.5rem;">
+    <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em;">Quiz Management</h2>
+    <button class="add-btn" onclick="openAddQuizModal()">+ Add Question</button>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 2fr; gap:1.5rem;">
+    <div class="card">
+      <h3 style="font-weight:800; margin-bottom:1rem;">Filter by Course</h3>
+      <div id="quizCourseFilter"></div>
+    </div>
+    <div class="card">
+      <div class="table-wrap"><table id="quizTable"></table></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-admin-progress" class="page">
+  <h2 style="font-weight:900; font-size:1.4rem; letter-spacing:-0.03em; margin-bottom:1.5rem;">Student Progress Tracking</h2>
+  <div class="card">
+    <div class="table-wrap"><table id="progressTable"></table></div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<div class="modal-overlay" id="addStudentModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Add New Student</h3><button class="modal-close" onclick="closeModal('addStudentModal')">✕</button></div>
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" id="newStudentFirst" placeholder="Jane"></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="newStudentLast" placeholder="Doe"></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" id="newStudentEmail" placeholder="jane@example.com"></div>
+    <div class="form-group"><label>Enroll in Course</label><select id="newStudentCourse"></select></div>
+    <button class="btn btn-primary" style="width:100%; padding:0.8rem;" onclick="addStudent()">Add Student</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addCourseModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Add New Course</h3><button class="modal-close" onclick="closeModal('addCourseModal')">✕</button></div>
+    <div class="form-group"><label>Course Title</label><input type="text" id="newCourseTitle" placeholder="e.g. Python for Beginners"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Language</label>
+        <select id="newCourseLang">
+          <option value="Python">Python</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Java">Java</option>
+          <option value="C++">C++</option>
+          <option value="HTML/CSS">HTML/CSS</option>
+          <option value="SQL">SQL</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Duration (hrs)</label><input type="number" id="newCourseDuration" placeholder="e.g. 20"></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="newCourseDesc" placeholder="Course description..."></textarea></div>
+    <div class="form-group"><label>Source URL (Coursera / Udemy / freeCodeCamp etc.)</label><input type="url" id="newCourseUrl" placeholder="https://..."></div>
+    <button class="btn btn-primary" style="width:100%; padding:0.8rem;" onclick="addCourse()">Add Course</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addQuizModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Add Quiz Question</h3><button class="modal-close" onclick="closeModal('addQuizModal')">✕</button></div>
+    <div class="form-group"><label>Course</label><select id="quizCourseSel"></select></div>
+    <div class="form-group"><label>Question</label><textarea id="newQText" placeholder="Enter your question..."></textarea></div>
+    <div class="form-group"><label>Option A</label><input type="text" id="newQA" placeholder="Option A"></div>
+    <div class="form-group"><label>Option B</label><input type="text" id="newQB" placeholder="Option B"></div>
+    <div class="form-group"><label>Option C</label><input type="text" id="newQC" placeholder="Option C"></div>
+    <div class="form-group"><label>Option D</label><input type="text" id="newQD" placeholder="Option D"></div>
+    <div class="form-group"><label>Correct Answer</label>
+      <select id="newQCorrect">
+        <option value="0">Option A</option><option value="1">Option B</option>
+        <option value="2">Option C</option><option value="3">Option D</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="width:100%; padding:0.8rem;" onclick="addQuizQuestion()">Add Question</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ===== DATA =====
+const LANGUAGES = [
+  { id:'python', name:'Python', icon:'🐍', color:'#3b82f6', bg:'#dbeafe', desc:'The most beginner-friendly language. Perfect for data science, automation & web development.', level:'Beginner', hours:105, students:4820 },
+  { id:'javascript', name:'JavaScript', icon:'⚡', color:'#f59e0b', bg:'#fef3c7', desc:'The language of the web. Build interactive websites, apps and backends with Node.js.', level:'Beginner', hours:90, students:3960 },
+  { id:'java', name:'Java', icon:'☕', color:'#ef4444', bg:'#fee2e2', desc:'Industry-standard language used in enterprise software, Android, and backend systems.', level:'Beginner', hours:85, students:2410 },
+  { id:'cpp', name:'C++', icon:'⚙️', color:'#8b5cf6', bg:'#ede9fe', desc:'High-performance language for game development, systems programming and competitive coding.', level:'Beginner', hours:80, students:1870 },
+  { id:'html', name:'HTML/CSS', icon:'🌐', color:'#10b981', bg:'#d1fae5', desc:'The foundation of every website. Learn to structure and style beautiful web pages.', level:'Beginner', hours:60, students:5230 },
+  { id:'sql', name:'SQL', icon:'🗄️', color:'#f97316', bg:'#ffedd5', desc:'Query and manage databases. Essential skill for data analysts and backend developers.', level:'Beginner', hours:50, students:2100 },
+];
+
+const COURSES = [
+  // Python
+  { id:'py1', lang:'Python', title:'CS50P: Introduction to Programming with Python', provider:'Harvard / edX', icon:'🐍', color:'#3b82f6', bg:'#dbeafe', hours:10, lessons:10, source:'https://cs50.harvard.edu/python/', desc:'Harvard\'s free Python course covering functions, variables, conditionals, loops, exceptions and more.', modules:['Functions','Variables','Conditionals','Loops','Exceptions','Libraries','File I/O','Regular Expressions','OOP','Et Cetera'] },
+  { id:'py2', lang:'Python', title:'Python for Everybody Specialization', provider:'Coursera / University of Michigan', icon:'🐍', color:'#3b82f6', bg:'#dbeafe', hours:8, lessons:8, source:'https://www.coursera.org/specializations/python', desc:'Learn to program and analyze data with Python. Covers data structures, web scraping and databases.', modules:['Getting Started','Data Structures','Web Access','Databases','Data Visualization'] },
+  { id:'py3', lang:'Python', title:'freeCodeCamp Python Handbook', provider:'freeCodeCamp', icon:'🐍', color:'#3b82f6', bg:'#dbeafe', hours:7, lessons:7, source:'https://www.freecodecamp.org/learn/scientific-computing-with-python/', desc:'Free interactive Python curriculum with hundreds of exercises and five certification projects.', modules:['Built-in Functions','Variables','Data Types','Loops','Functions','OOP','Algorithms'] },
+  // JavaScript
+  { id:'js1', lang:'JavaScript', title:'The Complete JavaScript Course 2024', provider:'Udemy / Jonas Schmedtmann', icon:'⚡', color:'#f59e0b', bg:'#fef3c7', hours:9, lessons:9, source:'https://www.udemy.com/course/the-complete-javascript-course/', desc:'The most comprehensive JS course. From fundamentals to advanced topics like async JS and OOP.', modules:['Fundamentals Part 1','Fundamentals Part 2','DOM & Events','Deeper JS','OOP','Async JS','Modern JS','Mapty Project','Bankist Project'] },
+  { id:'js2', lang:'JavaScript', title:'JavaScript Algorithms and Data Structures', provider:'freeCodeCamp', icon:'⚡', color:'#f59e0b', bg:'#fef3c7', hours:8, lessons:8, source:'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', desc:'Free JavaScript certification course covering ES6, regex, debugging, data structures and algorithms.', modules:['Basic JS','ES6','Regex','Debugging','Data Structures','Algorithm Scripting','OOP','Functional Programming'] },
+  // Java
+  { id:'java1', lang:'Java', title:'Java Programming and Software Engineering Fundamentals', provider:'Coursera / Duke University', icon:'☕', color:'#ef4444', bg:'#fee2e2', hours:9, lessons:9, source:'https://www.coursera.org/specializations/java-programming', desc:'Learn Java and software engineering from Duke professors with real-world projects.', modules:['Programming Foundations','Arrays & ArrayLists','OOP','Data Structures','Algorithms','Build a Recommendation System'] },
+  { id:'java2', lang:'Java', title:'Java Programming for Beginners', provider:'Udemy / Tim Buchalka', icon:'☕', color:'#ef4444', bg:'#fee2e2', hours:8, lessons:8, source:'https://www.udemy.com/course/java-the-complete-java-developer-course/', desc:'The most popular Java course on Udemy. Covers all core concepts with practical projects.', modules:['Basics','Expressions','Statements','Keywords','Classes','Data Types','OOP Mastery','Arrays','Lists'] },
+  // C++
+  { id:'cpp1', lang:'C++', title:'C++ Tutorial for Complete Beginners', provider:'Udemy / John Purcell', icon:'⚙️', color:'#8b5cf6', bg:'#ede9fe', hours:8, lessons:8, source:'https://www.udemy.com/course/free-learn-c-tutorial-beginners/', desc:'A free Udemy course introducing C++ from the ground up — ideal for absolute beginners.', modules:['Setup','Variables','Strings','Arrays','If Statements','Loops','Functions','Pointers','Classes'] },
+  // HTML/CSS
+  { id:'html1', lang:'HTML/CSS', title:'Responsive Web Design Certification', provider:'freeCodeCamp', icon:'🌐', color:'#10b981', bg:'#d1fae5', hours:7, lessons:7, source:'https://www.freecodecamp.org/learn/2022/responsive-web-design/', desc:'Free 300-hour curriculum. Build 15 projects to earn the freeCodeCamp Responsive Web Design cert.', modules:['HTML Basics','Basic CSS','Applied Visual Design','Flexbox','CSS Grid','Responsive Design','Projects'] },
+  { id:'html2', lang:'HTML/CSS', title:'The Odin Project: Foundations', provider:'The Odin Project', icon:'🌐', color:'#10b981', bg:'#d1fae5', hours:6, lessons:6, source:'https://www.theodinproject.com/paths/foundations', desc:'A completely free open-source curriculum for learning web development. Highly project-based.', modules:['HTML Foundations','CSS Foundations','Flexbox','JavaScript Basics','Git Basics','Final Projects'] },
+  // SQL
+  { id:'sql1', lang:'SQL', title:'SQL for Data Science', provider:'Coursera / UC Davis', icon:'🗄️', color:'#f97316', bg:'#ffedd5', hours:7, lessons:7, source:'https://www.coursera.org/learn/sql-for-data-science', desc:'Learn SQL basics for data retrieval, filtering, sorting, and grouping — taught by UC Davis.', modules:['SELECT Statements','Filtering','Sorting','Math Operations','Strings & Dates','Subqueries','Joins'] },
+  { id:'sql2', lang:'SQL', title:'Intro to SQL: Querying and Managing Data', provider:'Khan Academy', icon:'🗄️', color:'#f97316', bg:'#ffedd5', hours:5, lessons:5, source:'https://www.khanacademy.org/computing/computer-programming/sql', desc:'Khan Academy\'s free interactive SQL course. Learn to query and manage databases from scratch.', modules:['SQL Basics','More Advanced SQL','Querying','Relational Queries','Modifying Databases'] },
+];
+
+const QUIZ_BANK = {
+  py1: [
+    { q:'What does the print() function do in Python?', opts:['Prints text to the screen','Saves a file','Creates a variable','Imports a module'], correct:0 },
+    { q:'Which keyword is used to define a function in Python?', opts:['function','define','def','func'], correct:2 },
+    { q:'What will print(2 ** 3) output?', opts:['6','8','9','None'], correct:1 },
+    { q:'How do you create a comment in Python?', opts:['// comment','/* comment */','# comment','-- comment'], correct:2 },
+    { q:'Which of these is a valid Python list?', opts:['(1, 2, 3)','{1, 2, 3}','[1, 2, 3]','<1, 2, 3>'], correct:2 },
+  ],
+  js1: [
+    { q:'How do you declare a variable in modern JavaScript?', opts:['var x = 5','let x = 5','variable x = 5','int x = 5'], correct:1 },
+    { q:'What does === mean in JavaScript?', opts:['Assignment','Loose equality','Strict equality','Not equal'], correct:2 },
+    { q:'Which method adds an item to the end of an array?', opts:['append()','add()','push()','insert()'], correct:2 },
+    { q:'What does DOM stand for?', opts:['Document Object Model','Data Object Management','Document Order Markup','Dynamic Object Method'], correct:0 },
+    { q:'What will typeof "hello" return?', opts:['"text"','"string"','"word"','"char"'], correct:1 },
+  ],
+  java1: [
+    { q:'What is the correct way to print in Java?', opts:['print("Hello")','System.out.println("Hello")','console.log("Hello")','echo "Hello"'], correct:1 },
+    { q:'Which keyword creates a new object in Java?', opts:['create','new','make','object'], correct:1 },
+    { q:'What does OOP stand for?', opts:['Object-Oriented Programming','Open Operating Protocol','Output Object Processing','None of the above'], correct:0 },
+    { q:'Which data type stores a whole number in Java?', opts:['double','float','int','String'], correct:2 },
+    { q:'What is a constructor?', opts:['A method that destroys objects','A special method that initializes objects','A variable declaration','A loop type'], correct:1 },
+  ],
+  html1: [
+    { q:'What does HTML stand for?', opts:['HyperText Markup Language','HighTech Machine Learning','HyperText Management Layer','None'], correct:0 },
+    { q:'Which tag creates a hyperlink?', opts:['<link>','<href>','<a>','<url>'], correct:2 },
+    { q:'Which CSS property changes text color?', opts:['font-color','text-color','color','foreground'], correct:2 },
+    { q:'What does CSS stand for?', opts:['Creative Style Sheets','Cascading Style Sheets','Computer Style System','Custom Style Sheets'], correct:1 },
+    { q:'Which HTML tag is used for the largest heading?', opts:['<h6>','<heading>','<h1>','<head>'], correct:2 },
+  ],
+  sql1: [
+    { q:'Which SQL statement retrieves data?', opts:['GET','FETCH','SELECT','RETRIEVE'], correct:2 },
+    { q:'Which clause filters rows in a SELECT?', opts:['FILTER','WHERE','HAVING','LIMIT'], correct:1 },
+    { q:'What does COUNT(*) do?', opts:['Counts columns','Counts all rows','Counts unique values','Counts NULL values'], correct:1 },
+    { q:'Which keyword sorts results?', opts:['SORT BY','ORDER BY','GROUP BY','ARRANGE BY'], correct:1 },
+    { q:'Which JOIN returns all rows from the left table?', opts:['INNER JOIN','RIGHT JOIN','LEFT JOIN','FULL JOIN'], correct:2 },
+  ],
+};
+
+const DEMO_STUDENTS = [
+  { id:1, name:'Alice Johnson', email:'alice@example.com', enrolled:'Python for Everybody', progress:72, status:'active', joined:'Jan 2026' },
+  { id:2, name:'Bob Martinez', email:'bob@example.com', enrolled:'Complete JavaScript Course', progress:45, status:'active', joined:'Feb 2026' },
+  { id:3, name:'Carol White', email:'carol@example.com', enrolled:'CS50P Python', progress:100, status:'completed', joined:'Dec 2025' },
+  { id:4, name:'David Kim', email:'david@example.com', enrolled:'SQL for Data Science', progress:30, status:'active', joined:'Mar 2026' },
+  { id:5, name:'Emma Brown', email:'emma@example.com', enrolled:'HTML/CSS Responsive', progress:88, status:'active', joined:'Jan 2026' },
+  { id:6, name:'Frank Lee', email:'frank@example.com', enrolled:'Java Programming', progress:15, status:'inactive', joined:'Mar 2026' },
+];
+
+// ===== STATE =====
+let currentUser = null;
+let currentRole = 'student';
+let enrolledCourses = {};
+let lessonProgress = {};
+let selectedAuthRole = 'student';
+let currentQuiz = { courseId: null, qIndex: 0, answers: [], score: 0 };
+let selectedQuizCourseFilter = 'py1';
+let adminQuizBank = JSON.parse(JSON.stringify(QUIZ_BANK));
+let students = JSON.parse(JSON.stringify(DEMO_STUDENTS));
+let allCourses = JSON.parse(JSON.stringify(COURSES));
+let currentLessonCourse = null;
+let currentLessonIndex = 0;
+
+// ===== SCREENS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  if(id === 'app') { document.getElementById('app').style.display = 'flex'; }
+  else { document.getElementById('app').style.display = 'none'; }
+}
+
+function showAuth(tab) {
+  showScreen('auth');
+  switchTab(tab);
+}
+
+function switchTab(tab) {
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+}
+
+function selectRole(r) {
+  selectedAuthRole = r;
+  document.getElementById('roleStudent').classList.toggle('active', r === 'student');
+  document.getElementById('roleAdmin').classList.toggle('active', r === 'admin');
+}
+
+function fillDemo(role) {
+  if(role === 'admin') {
+    document.getElementById('loginEmail').value = 'admin@demo.com';
+    document.getElementById('loginPassword').value = 'admin123';
+  } else {
+    document.getElementById('loginEmail').value = 'student@demo.com';
+    document.getElementById('loginPassword').value = 'demo123';
+  }
+}
+
+function demoLogin(role) {
+  currentUser = { name: role === 'admin' ? 'Admin User' : 'Alex Rivera', email: role+'@demo.com', role };
+  currentRole = role;
+  initApp();
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPassword').value;
+  if(!email || !pass) { document.getElementById('loginErr').style.display = 'block'; return; }
+  const role = email.includes('admin') ? 'admin' : 'student';
+  currentUser = { name: role === 'admin' ? 'Admin User' : 'Alex Rivera', email, role };
+  currentRole = role;
+  document.getElementById('loginErr').style.display = 'none';
+  initApp();
+}
+
+function doSignup() {
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const pass = document.getElementById('signupPassword').value;
+  if(!name || !email || !pass) { document.getElementById('signupErr').style.display = 'block'; return; }
+  currentUser = { name, email, role: selectedAuthRole };
+  currentRole = selectedAuthRole;
+  document.getElementById('signupErr').style.display = 'none';
+  // Auto-enroll in first Python course if student
+  if(currentRole === 'student') enrolledCourses['py1'] = { progress: 0, completedLessons: [] };
+  showToast(`Welcome, ${name.split(' ')[0]}! 🎉`, 'success');
+  initApp();
+}
+
+function logout() {
+  currentUser = null; currentRole = 'student'; enrolledCourses = {}; lessonProgress = {};
+  showScreen('landing');
+  showToast('Signed out successfully');
+}
+
+// ===== APP INIT =====
+function initApp() {
+  showScreen('app');
+  const u = currentUser;
+  const initial = u.name.charAt(0).toUpperCase();
+  document.getElementById('sideAvatar').textContent = initial;
+  document.getElementById('topAvatar').textContent = initial;
+  document.getElementById('sideUsername').textContent = u.name.split(' ')[0];
+  document.getElementById('sideRole').textContent = currentRole === 'admin' ? 'Instructor' : 'Student';
+  document.getElementById('profileAvatar').textContent = initial;
+  document.getElementById('profileName').textContent = u.name;
+  document.getElementById('profileEmail').textContent = u.email;
+  document.getElementById('profileNameInput').value = u.name;
+  document.getElementById('profileEmailInput').value = u.email;
+
+  buildSidebar();
+  if(currentRole === 'admin') {
+    navigate('admin-dashboard');
+  } else {
+    if(Object.keys(enrolledCourses).length === 0) enrolledCourses['py1'] = { progress: 0, completedLessons: [] };
+    navigate('dashboard');
+  }
+}
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  const items = currentRole === 'admin' ? [
+    { section:'Main' },
+    { id:'admin-dashboard', icon:'📊', label:'Dashboard' },
+    { id:'admin-students', icon:'👥', label:'Students' },
+    { id:'admin-courses', icon:'📚', label:'Courses' },
+    { id:'admin-quizzes', icon:'📝', label:'Quizzes' },
+    { id:'admin-progress', icon:'📈', label:'Progress Tracking' },
+  ] : [
+    { section:'Learn' },
+    { id:'dashboard', icon:'🏠', label:'Dashboard' },
+    { id:'courses', icon:'📚', label:'All Courses' },
+    { id:'quiz', icon:'📝', label:'Take Quiz' },
+    { section:'Account' },
+    { id:'progress', icon:'📈', label:'My Progress' },
+    { id:'profile', icon:'👤', label:'Profile' },
+  ];
+  nav.innerHTML = items.map(i => i.section
+    ? `<div class="nav-section">${i.section}</div>`
+    : `<div class="nav-item" id="nav-${i.id}" onclick="navigate('${i.id}')"><span class="ni">${i.icon}</span>${i.label}</div>`
+  ).join('');
+}
+
+function navigate(page) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+page);
+  if(navEl) navEl.classList.add('active');
+  const pageEl = document.getElementById('page-'+page);
+  if(pageEl) pageEl.classList.add('active');
+
+  const titles = {
+    'dashboard':'Dashboard','courses':'All Courses','quiz':'Take a Quiz',
+    'progress':'My Progress','profile':'My Profile','lesson':'Lesson',
+    'admin-dashboard':'Admin Dashboard','admin-students':'Students',
+    'admin-courses':'Courses','admin-quizzes':'Quizzes','admin-progress':'Progress Tracking'
+  };
+  document.getElementById('topbarTitle').textContent = titles[page] || page;
+
+  if(page === 'dashboard') renderDashboard();
+  else if(page === 'courses') renderCourses();
+  else if(page === 'quiz') renderQuiz();
+  else if(page === 'progress') renderProgress();
+  else if(page === 'profile') renderProfilePage();
+  else if(page === 'admin-dashboard') renderAdminDashboard();
+  else if(page === 'admin-students') renderAdminStudents();
+  else if(page === 'admin-courses') renderAdminCourses();
+  else if(page === 'admin-quizzes') renderAdminQuizzes();
+  else if(page === 'admin-progress') renderAdminProgress();
+}
+
+// ===== RENDER LANDING =====
+function renderLanding() {
+  const grid = document.getElementById('landLangGrid');
+  if(!grid) return;
+  grid.innerHTML = LANGUAGES.map(l => `
+    <div class="lang-card" onclick="showAuth('signup')">
+      <div class="lang-icon">${l.icon}</div>
+      <div class="lang-name">${l.name}</div>
+      <div class="lang-desc">${l.desc}</div>
+      <div class="lang-meta">
+        <span class="chip chip-blue">${l.level}</span>
+        <span class="chip chip-green">${l.hours}+ hrs</span>
+        <span class="chip chip-yellow">${(l.students/1000).toFixed(1)}K students</span>
+      </div>
+      <button class="enroll-btn">View Courses →</button>
+    </div>
+  `).join('');
+}
+
+// ===== STUDENT DASHBOARD =====
+function renderDashboard() {
+  const enrolled = Object.keys(enrolledCourses);
+  const totalProgress = enrolled.length ? Math.round(enrolled.reduce((a,id) => a + (enrolledCourses[id]?.progress||0), 0) / enrolled.length) : 0;
+
+  document.getElementById('welcomeMsg').textContent = `Welcome back, ${currentUser.name.split(' ')[0]}! 👋`;
+  document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card"><div class="stat-icon blue">📚</div><div><div class="stat-val">${enrolled.length}</div><div class="stat-lbl">Courses Enrolled</div></div></div>
+    <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-val">${totalProgress}%</div><div class="stat-lbl">Avg Progress</div></div></div>
+    <div class="stat-card"><div class="stat-icon yellow">🔥</div><div><div class="stat-val">3</div><div class="stat-lbl">Day Streak</div></div></div>
+    <div class="stat-card"><div class="stat-icon red">🏆</div><div><div class="stat-val">${enrolled.filter(id=>(enrolledCourses[id]?.progress||0)===100).length}</div><div class="stat-lbl">Completed</div></div></div>
+  `;
+
+  const myCourses = allCourses.filter(c => enrolled.includes(c.id));
+  document.getElementById('myCoursesList').innerHTML = myCourses.length ? myCourses.map(c => {
+    const prog = enrolledCourses[c.id]?.progress || 0;
+    return `<div style="display:flex;align-items:center;gap:1rem;padding:0.9rem 0;border-bottom:1px solid var(--border);">
+      <div style="width:40px;height:40px;border-radius:10px;background:${c.bg};display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">${c.icon}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.title}</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-bottom:0.4rem;">${c.provider}</div>
+        <div class="prog-bar"><div class="prog-fill blue" style="width:${prog}%"></div></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-weight:800;font-size:0.9rem;color:var(--primary);">${prog}%</div>
+        <button onclick="openLesson('${c.id}',0)" style="font-size:0.7rem;background:var(--primary);color:#fff;border:none;border-radius:6px;padding:0.3rem 0.6rem;cursor:pointer;margin-top:0.2rem;">Resume</button>
+      </div>
+    </div>`;
+  }).join('') : `<div class="empty-state"><div class="ei">📚</div><p>No courses enrolled yet.<br><a onclick="navigate('courses')" style="color:var(--primary);cursor:pointer;font-weight:700;">Browse courses →</a></p></div>`;
+
+  document.getElementById('achievements').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:0.7rem;">
+      ${[{e:'🎯',t:'First Lesson',d:'Complete your first lesson'},{e:'🔥',t:'3-Day Streak',d:'Learn 3 days in a row'},{e:'📝',t:'Quiz Taker',d:'Complete a quiz'},{e:'🌟',t:'Top Student',d:'Score 90%+ on a quiz'}]
+        .map((a,i) => `<div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem;border-radius:8px;background:${i<2?'var(--success-light)':'var(--bg)'};">
+          <span style="font-size:1.3rem;">${a.e}</span>
+          <div><div style="font-weight:700;font-size:0.82rem;">${a.t}</div><div style="font-size:0.7rem;color:var(--text3);">${a.d}</div></div>
+          ${i<2?'<span style="margin-left:auto;font-size:0.7rem;background:var(--success);color:#fff;padding:0.2rem 0.5rem;border-radius:100px;">Earned</span>':''}
+        </div>`).join('')}
+    </div>
+  `;
+}
+
+// ===== COURSES =====
+function renderCourses() {
+  const langs = ['All', ...new Set(allCourses.map(c => c.lang))];
+  let activeFilter = 'All';
+  document.getElementById('langFilters').innerHTML = langs.map(l =>
+    `<button onclick="filterCourses('${l}',this)" class="btn ${l==='All'?'btn-primary':'btn-outline'}" style="padding:0.4rem 0.9rem;font-size:0.8rem;">${l==='All'?'🌐 All':l}</button>`
+  ).join('');
+
+  renderCourseGrid('allCoursesGrid', allCourses);
+}
+
+window.filterCourses = function(lang, btn) {
+  document.querySelectorAll('#langFilters button').forEach(b => { b.className='btn btn-outline'; b.style.cssText='padding:0.4rem 0.9rem;font-size:0.8rem;'; });
+  btn.className = 'btn btn-primary'; btn.style.cssText = 'padding:0.4rem 0.9rem;font-size:0.8rem;';
+  const filtered = lang === 'All' ? allCourses : allCourses.filter(c => c.lang === lang);
+  renderCourseGrid('allCoursesGrid', filtered);
+};
+
+function renderCourseGrid(containerId, courses) {
+  document.getElementById(containerId).innerHTML = courses.map(c => {
+    const enrolled = !!enrolledCourses[c.id];
+    const prog = enrolledCourses[c.id]?.progress || 0;
+    return `<div class="course-card">
+      <div class="course-thumb" style="background:${c.bg};">${c.icon}</div>
+      <div class="course-body">
+        <div class="course-lang-tag" style="background:${c.bg};color:${c.color};">${c.lang}</div>
+        <div class="course-title">${c.title}</div>
+        <div class="course-meta"><span>🏫 ${c.provider}</span><span>⏱ ${c.hours}h</span><span>📖 ${c.lessons} modules</span></div>
+        <div style="font-size:0.75rem;color:var(--text3);margin-bottom:0.7rem;line-height:1.4;">${c.desc.substring(0,90)}...</div>
+        ${enrolled ? `<div class="course-prog"><div class="course-prog-label"><span>Progress</span><span>${prog}%</span></div><div class="prog-bar"><div class="prog-fill blue" style="width:${prog}%"></div></div></div>` : ''}
+        <div class="course-actions">
+          ${enrolled
+            ? `<button class="course-btn-main" onclick="openLesson('${c.id}',0)">${prog===100?'✅ Review':'▶ Continue'}</button>
+               <button class="course-btn-sec" onclick="navigate('quiz');startQuiz('${c.id}')">📝 Quiz</button>`
+            : `<button class="course-btn-main" onclick="enrollCourse('${c.id}')">+ Enroll Free</button>
+               <a href="${c.source}" target="_blank" style="flex:1;padding:0.5rem;border-radius:7px;font-size:0.78rem;font-weight:700;background:var(--bg);color:var(--text2);border:1px solid var(--border);text-align:center;text-decoration:none;">🔗 Source</a>`
+          }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function enrollCourse(id) {
+  enrolledCourses[id] = { progress: 0, completedLessons: [] };
+  const course = allCourses.find(c => c.id === id);
+  showToast(`Enrolled in "${course.title.substring(0,30)}..."! 🎉`, 'success');
+  renderCourses();
+}
+
+// ===== LESSON =====
+function openLesson(courseId, lessonIdx) {
+  currentLessonCourse = courseId;
+  currentLessonIndex = lessonIdx;
+  const course = allCourses.find(c => c.id === courseId);
+  navigate('lesson');
+
+  const lessonName = course.modules[lessonIdx] || 'Lesson ' + (lessonIdx+1);
+  document.getElementById('lessonHeader').innerHTML = `
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div style="width:42px;height:42px;border-radius:10px;background:${course.bg};display:flex;align-items:center;justify-content:center;font-size:1.4rem;">${course.icon}</div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text3);font-weight:700;">${course.lang} · ${course.provider}</div>
+        <div style="font-weight:800;font-size:1rem;">${course.title}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.4rem;margin-top:0.8rem;flex-wrap:wrap;">
+      ${course.modules.map((m,i) => `<span onclick="openLesson('${courseId}',${i})" style="padding:0.2rem 0.6rem;border-radius:6px;font-size:0.7rem;font-weight:700;cursor:pointer;background:${i===lessonIdx?'var(--primary)':'var(--bg)'};color:${i===lessonIdx?'#fff':'var(--text3)'};">${m}</span>`).join('')}
+    </div>
+  `;
+
+  document.getElementById('lessonVideo').innerHTML = `
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1e293b,#334155);border-radius:var(--radius);"></div>
+    <div style="position:relative;text-align:center;">
+      <div style="font-size:3rem;margin-bottom:0.5rem;">${course.icon}</div>
+      <div style="font-weight:800;font-size:1.1rem;margin-bottom:0.3rem;">${lessonName}</div>
+      <div style="font-size:0.82rem;opacity:0.6;margin-bottom:1rem;">${course.lang} · Module ${lessonIdx+1} of ${course.modules.length}</div>
+      <div class="play-btn" onclick="showToast('▶ Playing: '+currentLessonCourse,'success')" style="margin:0 auto;">▶</div>
+      <div style="font-size:0.72rem;opacity:0.5;margin-top:0.8rem;">Real video hosted at <a href="${course.source}" target="_blank" style="color:var(--accent);text-decoration:none;">${course.provider} ↗</a></div>
+    </div>
+  `;
+
+  const codeExamples = {
+    Python: `<span class="cm"># ${lessonName} example</span>\n<span class="kw">def</span> <span class="fn">greet</span>(name):\n    <span class="kw">return</span> <span class="str">f"Hello, {name}! Welcome to Python!"</span>\n\nstudents = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Zara"</span>]\n<span class="kw">for</span> s <span class="kw">in</span> students:\n    <span class="fn">print</span>(<span class="fn">greet</span>(s))`,
+    JavaScript: `<span class="cm">// ${lessonName} example</span>\n<span class="kw">const</span> greet = (name) => {\n  <span class="kw">return</span> <span class="str">\`Hello, \${name}!\`</span>;\n};\n\n<span class="kw">const</span> students = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>];\nstudents.<span class="fn">forEach</span>(s => <span class="fn">console.log</span>(<span class="fn">greet</span>(s)));`,
+    Java: `<span class="cm">// ${lessonName} example</span>\n<span class="kw">public class</span> <span class="fn">Main</span> {\n  <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {\n    String name = <span class="str">"World"</span>;\n    System.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> + name);\n  }\n}`,
+    'HTML/CSS': `<span class="cm">&lt;!-- ${lessonName} --&gt;</span>\n<span class="kw">&lt;h1</span> <span class="fn">class</span>=<span class="str">"title"</span><span class="kw">&gt;</span>Hello World<span class="kw">&lt;/h1&gt;</span>\n<span class="kw">&lt;style&gt;</span>\n  .title { color: <span class="str">navy</span>; font-size: <span class="str">2rem</span>; }\n<span class="kw">&lt;/style&gt;</span>`,
+    SQL: `<span class="cm">-- ${lessonName} example</span>\n<span class="kw">SELECT</span> name, email, score\n<span class="kw">FROM</span> students\n<span class="kw">WHERE</span> score > <span class="fn">80</span>\n<span class="kw">ORDER BY</span> score <span class="kw">DESC</span>;`,
+    'C++': `<span class="cm">// ${lessonName} example</span>\n#include &lt;iostream&gt;\n<span class="kw">using namespace</span> std;\n<span class="kw">int</span> <span class="fn">main</span>() {\n  cout << <span class="str">"Hello World!"</span> << endl;\n  <span class="kw">return</span> 0;\n}`,
+  };
+
+  const overviewContent = `
+    <h3 style="font-weight:800;font-size:1rem;margin-bottom:0.8rem;">${lessonName}</h3>
+    <p>In this lesson, you'll learn the fundamentals of <strong>${lessonName}</strong> in ${course.lang}. This module is part of <em>${course.title}</em> by ${course.provider}.</p>
+    <ul style="margin:0.8rem 0 0.8rem 1.2rem;line-height:2;font-size:0.88rem;color:var(--text2);">
+      <li>Understand the core concepts of ${lessonName}</li>
+      <li>Apply what you learn with hands-on examples</li>
+      <li>Complete the end-of-module quiz to test your knowledge</li>
+      <li>Reference the official course at <a href="${course.source}" target="_blank" style="color:var(--primary);">${course.provider}</a></li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text3);">📌 <strong>Tip:</strong> Open the "Code Example" tab to see working ${course.lang} code for this lesson.</p>
+  `;
+  const codeContent = `<div class="code-block"><pre style="white-space:pre-wrap;">${codeExamples[course.lang] || codeExamples['Python']}</pre></div>
+
+```
+<p style="font-size:0.82rem;color:var(--text3);margin-top:0.5rem;">Try running this code at <a href="${course.source}" target="_blank" style="color:var(--primary);">${course.provider}</a></p>`;
+```
+
+document.getElementById(‘lessonContent’).innerHTML = overviewContent;
+document.getElementById(‘lessonContent’).dataset.overview = overviewContent;
+document.getElementById(‘lessonContent’).dataset.code = codeContent;
+document.getElementById(‘lessonContent’).dataset.quiz = `<p style="color:var(--text2);font-size:0.9rem;">Ready to test your knowledge on <strong>${lessonName}</strong>?</p><br><button class="btn btn-primary" onclick="navigate('quiz');startQuiz('${courseId}')">📝 Start Full Quiz</button>`;
+}
+
+window.switchLessonTab = function(tab, el) {
+document.querySelectorAll(’.lesson-tab’).forEach(t => t.classList.remove(‘active’));
+el.classList.add(‘active’);
+const cont = document.getElementById(‘lessonContent’);
+cont.innerHTML = cont.dataset[tab] || cont.innerHTML;
+};
+
+function completeLesson() {
+if(!currentLessonCourse) return;
+const course = allCourses.find(c => c.id === currentLessonCourse);
+const enrolled = enrolledCourses[currentLessonCourse];
+if(!enrolled.completedLessons.includes(currentLessonIndex)) enrolled.completedLessons.push(currentLessonIndex);
+enrolled.progress = Math.min(100, Math.round((enrolled.completedLessons.length / course.modules.length) * 100));
+showToast(‘✅ Lesson completed! Progress updated.’, ‘success’);
+const nextIdx = currentLessonIndex + 1;
+if(nextIdx < course.modules.length) { openLesson(currentLessonCourse, nextIdx); }
+else { showToast(‘🏆 Course completed! Certificate earned!’, ‘success’); navigate(‘progress’); }
+}
+
+// ===== QUIZ =====
+function renderQuiz() {
+const enrolled = Object.keys(enrolledCourses);
+const available = enrolled.filter(id => adminQuizBank[id] && adminQuizBank[id].length > 0);
+if(available.length === 0) {
+document.getElementById(‘quizContainer’).innerHTML = `<div class="empty-state"><div class="ei">📝</div><p>Enroll in a course first to take quizzes.</p><br><button class="btn btn-primary" onclick="navigate('courses')">Browse Courses</button></div>`;
+return;
+}
+if(!currentQuiz.courseId || !enrolled.includes(currentQuiz.courseId)) currentQuiz.courseId = available[0];
+startQuiz(currentQuiz.courseId);
+}
+
+window.startQuiz = function(courseId) {
+currentQuiz = { courseId, qIndex: 0, answers: [], score: 0 };
+navigate(‘quiz’);
+renderQuizQuestion();
+};
+
+function renderQuizQuestion() {
+const questions = adminQuizBank[currentQuiz.courseId] || [];
+const course = allCourses.find(c => c.id === currentQuiz.courseId);
+const { qIndex } = currentQuiz;
+
+if(qIndex >= questions.length) { renderQuizResult(); return; }
+const q = questions[qIndex];
+const letters = [‘A’,‘B’,‘C’,‘D’];
+
+document.getElementById(‘quizContainer’).innerHTML = `<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem;"> <div style="width:36px;height:36px;border-radius:8px;background:${course?.bg||'#eef2ff'};display:flex;align-items:center;justify-content:center;font-size:1.1rem;">${course?.icon||'📝'}</div> <div><div style="font-weight:800;font-size:0.88rem;">${course?.title?.substring(0,40)||'Quiz'}...</div> <div class="quiz-progress-label"><span style="font-size:0.7rem;color:var(--text3);">Question ${qIndex+1} of ${questions.length}</span></div> </div> </div> <div class="prog-bar" style="height:6px;"><div class="prog-fill blue" style="width:${((qIndex)/questions.length)*100}%"></div></div> <div class="q-text">${qIndex+1}. ${q.q}</div> <div class="q-options"> ${q.opts.map((opt,i) =>`
+<div class="q-option" onclick="selectAnswer(${i})" id="opt${i}">
+<div class="q-opt-letter">${letters[i]}</div>
+${opt}
+</div>`).join('')} </div> <div class="quiz-nav"> <button class="btn btn-primary" id="nextBtn" onclick="submitAnswer()" style="display:none;">Next →</button> <button class="btn btn-outline" onclick="navigate('courses')" style="font-size:0.82rem;">Exit Quiz</button> <span style="margin-left:auto;font-size:0.78rem;color:var(--text3);">${qIndex+1}/${questions.length}</span> </div> `;
+}
+
+window.selectAnswer = function(idx) {
+document.querySelectorAll(’.q-option’).forEach(o => o.classList.remove(‘selected’));
+document.getElementById(‘opt’+idx)?.classList.add(‘selected’);
+currentQuiz.selectedOption = idx;
+document.getElementById(‘nextBtn’).style.display = ‘block’;
+};
+
+window.submitAnswer = function() {
+const questions = adminQuizBank[currentQuiz.courseId];
+const q = questions[currentQuiz.qIndex];
+const sel = currentQuiz.selectedOption;
+if(sel === undefined) return;
+document.querySelectorAll(’.q-option’).forEach((o,i) => {
+if(i === q.correct) o.classList.add(‘correct’);
+else if(i === sel && i !== q.correct) o.classList.add(‘wrong’);
+o.style.pointerEvents = ‘none’;
+});
+if(sel === q.correct) currentQuiz.score++;
+currentQuiz.answers.push(sel);
+currentQuiz.selectedOption = undefined;
+document.getElementById(‘nextBtn’).textContent = currentQuiz.qIndex + 1 >= questions.length ? ‘See Results 🏁’ : ‘Next →’;
+document.getElementById(‘nextBtn’).onclick = () => { currentQuiz.qIndex++; renderQuizQuestion(); };
+};
+
+function renderQuizResult() {
+const questions = adminQuizBank[currentQuiz.courseId] || [];
+const pct = Math.round((currentQuiz.score / questions.length) * 100);
+const emoji = pct >= 80 ? ‘🏆’ : pct >= 60 ? ‘👍’ : ‘📖’;
+const msg = pct >= 80 ? ‘Excellent work!’ : pct >= 60 ? ‘Good effort!’ : ‘Keep studying!’;
+document.getElementById(‘quizContainer’).innerHTML = ` <div class="quiz-result"> <div style="font-size:3rem;margin-bottom:0.8rem;">${emoji}</div> <div class="quiz-score">${pct}%</div> <div class="quiz-score-sub">${currentQuiz.score} / ${questions.length} correct · ${msg}</div> <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;"> <button class="btn btn-primary" onclick="startQuiz('${currentQuiz.courseId}')">🔄 Retake Quiz</button> <button class="btn btn-outline" onclick="navigate('courses')">Back to Courses</button> </div> </div>`;
+if(pct === 100) showToast(‘Perfect score! 🌟 Achievement unlocked!’, ‘success’);
+}
+
+// ===== PROGRESS =====
+function renderProgress() {
+const enrolled = Object.keys(enrolledCourses);
+document.getElementById(‘progressContent’).innerHTML = enrolled.length ? `<div style="display:grid;gap:1.2rem;"> ${enrolled.map(id => { const c = allCourses.find(x => x.id === id); const prog = enrolledCourses[id]?.progress || 0; const done = enrolledCourses[id]?.completedLessons?.length || 0; return`<div class="card">
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+<div style="width:46px;height:46px;border-radius:12px;background:${c.bg};display:flex;align-items:center;justify-content:center;font-size:1.5rem;">${c.icon}</div>
+<div style="flex:1;">
+<div style="font-weight:800;font-size:0.95rem;">${c.title}</div>
+<div style="font-size:0.75rem;color:var(--text3);">${c.provider}</div>
+</div>
+<div style="text-align:right;">
+<div style="font-size:1.5rem;font-weight:900;color:var(--primary);">${prog}%</div>
+<div style="font-size:0.7rem;color:var(--text3);">${done}/${c.modules.length} lessons</div>
+</div>
+</div>
+<div class="prog-bar" style="height:10px;"><div class="prog-fill blue" style="width:${prog}%"></div></div>
+<div style="display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;">
+${c.modules.map((m,i) => `<span style="font-size:0.68rem;padding:0.2rem 0.5rem;border-radius:4px;background:${(enrolledCourses[id]?.completedLessons||[]).includes(i)?'var(--success-light)':'var(--bg)'};color:${(enrolledCourses[id]?.completedLessons||[]).includes(i)?'var(--success)':'var(--text3)'};">${(enrolledCourses[id]?.completedLessons||[]).includes(i)?'✓ ':''} ${m}</span>`).join(’’)}
+</div>
+${prog===100?`<div style="margin-top:1rem;background:var(--success-light);color:var(--success);padding:0.6rem 1rem;border-radius:8px;font-weight:700;font-size:0.82rem;">🏆 Certificate Earned!</div>`:’’}
+</div>`; }).join('')} </div> ` : `<div class="empty-state"><div class="ei">📈</div><p>Enroll in courses to track your progress.</p></div>`;
+}
+
+// ===== PROFILE =====
+function renderProfilePage() {
+const certs = Object.keys(enrolledCourses).filter(id => enrolledCourses[id]?.progress === 100);
+document.getElementById(‘certList’).innerHTML = certs.length ? certs.map(id => {
+const c = allCourses.find(x => x.id === id);
+return `<div style="display:flex;align-items:center;gap:0.8rem;padding:0.7rem;background:var(--success-light);border-radius:8px;margin-bottom:0.5rem;"> <span style="font-size:1.5rem;">${c.icon}</span> <div><div style="font-weight:700;font-size:0.82rem;">${c.title.substring(0,35)}...</div><div style="font-size:0.7rem;color:var(--success);">Completed · Certificate Issued</div></div> </div>`;
+}).join(’’) : `<div style="color:var(--text3);font-size:0.85rem;text-align:center;padding:2rem;">Complete courses to earn certificates 🏆</div>`;
+}
+
+function saveProfile() {
+currentUser.name = document.getElementById(‘profileNameInput’).value || currentUser.name;
+currentUser.email = document.getElementById(‘profileEmailInput’).value || currentUser.email;
+document.getElementById(‘profileName’).textContent = currentUser.name;
+document.getElementById(‘profileEmail’).textContent = currentUser.email;
+document.getElementById(‘sideUsername’).textContent = currentUser.name.split(’ ’)[0];
+showToast(‘Profile updated! ✅’, ‘success’);
+}
+
+// ===== ADMIN =====
+function renderAdminDashboard() {
+document.getElementById(‘adminStats’).innerHTML = `<div class="stat-card"><div class="stat-icon blue">👥</div><div><div class="stat-val">${students.length}</div><div class="stat-lbl">Total Students</div></div></div> <div class="stat-card"><div class="stat-icon green">📚</div><div><div class="stat-val">${allCourses.length}</div><div class="stat-lbl">Active Courses</div></div></div> <div class="stat-card"><div class="stat-icon yellow">📝</div><div><div class="stat-val">${Object.values(adminQuizBank).reduce((a,q)=>a+q.length,0)}</div><div class="stat-lbl">Quiz Questions</div></div></div> <div class="stat-card"><div class="stat-icon red">🏆</div><div><div class="stat-val">${students.filter(s=>s.progress===100).length}</div><div class="stat-lbl">Graduated</div></div></div>`;
+document.getElementById(‘studentsTable’).innerHTML = `<thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Status</th></tr></thead> <tbody>${students.slice(0,5).map(s =>`
+<tr>
+<td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="avatar" style="width:30px;height:30px;font-size:0.75rem;">${s.name[0]}</div>${s.name}</div></td>
+<td style="color:var(--text2);font-size:0.82rem;">${s.enrolled}</td>
+<td><div style="display:flex;align-items:center;gap:0.5rem;"><div class="prog-bar" style="width:80px;"><div class="prog-fill blue" style="width:${s.progress}%"></div></div><span style="font-size:0.75rem;font-weight:700;">${s.progress}%</span></div></td>
+<td><span class="badge ${s.status==='completed'?'badge-success':s.status==='active'?'badge-primary':'badge-warning'}">${s.status}</span></td>
+</tr>`).join('')} </tbody>`;
+document.getElementById(‘enrollChart’).innerHTML = LANGUAGES.map(l => {
+const count = allCourses.filter(c=>c.lang===l.name).reduce((*,c)=>* + (students.filter(s=>s.enrolled.toLowerCase().includes(l.name.toLowerCase())).length), 0);
+const pct = Math.max(10, Math.round((l.students/5230)*100));
+return `<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;"> <div style="width:24px;text-align:center;">${l.icon}</div> <div style="font-size:0.78rem;font-weight:700;width:80px;">${l.name}</div> <div class="prog-bar" style="flex:1;"><div class="prog-fill blue" style="width:${pct}%;background:linear-gradient(90deg,${l.color},${l.color}88);"></div></div> <div style="font-size:0.72rem;color:var(--text3);width:40px;text-align:right;">${(l.students/1000).toFixed(1)}K</div> </div>`;
+}).join(’’);
+}
+
+function renderAdminStudents() {
+document.getElementById(‘fullStudentsTable’).innerHTML = `<thead><tr><th>#</th><th>Student</th><th>Email</th><th>Enrolled Course</th><th>Progress</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead> <tbody>${students.map((s,i) =>`
+<tr>
+<td style="color:var(--text3);">${i+1}</td>
+<td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="avatar" style="width:30px;height:30px;font-size:0.72rem;">${s.name[0]}</div><span style="font-weight:700;">${s.name}</span></div></td>
+<td style="color:var(--text2);font-size:0.82rem;">${s.email}</td>
+<td style="font-size:0.8rem;">${s.enrolled}</td>
+<td><div style="display:flex;align-items:center;gap:0.5rem;"><div class="prog-bar" style="width:70px;"><div class="prog-fill blue" style="width:${s.progress}%"></div></div><span style="font-size:0.75rem;font-weight:700;">${s.progress}%</span></div></td>
+<td><span class="badge ${s.status==='completed'?'badge-success':s.status==='active'?'badge-primary':'badge-warning'}">${s.status}</span></td>
+<td style="font-size:0.78rem;color:var(--text3);">${s.joined}</td>
+<td><button onclick="removeStudent(${s.id})" style="background:var(--danger-light);color:var(--danger);border:none;border-radius:6px;padding:0.3rem 0.7rem;font-size:0.72rem;font-weight:700;cursor:pointer;">Remove</button></td>
+</tr>`).join('')} </tbody>`;
+// Populate dropdown
+const sel = document.getElementById(‘newStudentCourse’);
+if(sel) sel.innerHTML = allCourses.map(c => `<option value="${c.title}">${c.title.substring(0,40)}</option>`).join(’’);
+}
+
+function renderAdminCourses() {
+document.getElementById(‘adminCoursesGrid’).innerHTML = allCourses.map(c => ` <div class="course-card"> <div class="course-thumb" style="background:${c.bg};">${c.icon}</div> <div class="course-body"> <div class="course-lang-tag" style="background:${c.bg};color:${c.color};">${c.lang}</div> <div class="course-title">${c.title}</div> <div class="course-meta"><span>🏫 ${c.provider}</span><span>⏱ ${c.hours}h</span></div> <div style="font-size:0.75rem;color:var(--text3);margin-bottom:0.7rem;line-height:1.4;">${c.desc.substring(0,80)}...</div> <div class="course-actions"> <a href="${c.source}" target="_blank" class="course-btn-main" style="flex:1;padding:0.5rem;border-radius:7px;font-size:0.78rem;font-weight:700;background:var(--primary);color:#fff;text-align:center;text-decoration:none;">🔗 View Source</a> <button onclick="deleteCourse('${c.id}')" style="background:var(--danger-light);color:var(--danger);border:none;border-radius:7px;padding:0.5rem 0.7rem;font-size:0.78rem;font-weight:700;cursor:pointer;">🗑</button> </div> </div> </div>`).join(’’);
+}
+
+function renderAdminQuizzes() {
+const courseList = document.getElementById(‘quizCourseFilter’);
+courseList.innerHTML = allCourses.filter(c => adminQuizBank[c.id]).map(c => ` <div onclick="setQuizFilter('${c.id}',this)" style="padding:0.6rem 0.8rem;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;background:${selectedQuizCourseFilter===c.id?'var(--primary-light)':'transparent'};color:${selectedQuizCourseFilter===c.id?'var(--primary)':'var(--text2)'};"> <span>${c.icon}</span>${c.title.substring(0,28)}... <span style="margin-left:auto;background:var(--bg);padding:0.1rem 0.5rem;border-radius:100px;font-size:0.68rem;">${(adminQuizBank[c.id]||[]).length}</span> </div>`).join(’’);
+renderQuizTable();
+const sel = document.getElementById(‘quizCourseSel’);
+if(sel) sel.innerHTML = allCourses.map(c=>`<option value="${c.id}">${c.lang}: ${c.title.substring(0,35)}</option>`).join(’’);
+}
+
+window.setQuizFilter = function(id, el) {
+selectedQuizCourseFilter = id;
+renderAdminQuizzes();
+};
+
+function renderQuizTable() {
+const qs = adminQuizBank[selectedQuizCourseFilter] || [];
+document.getElementById(‘quizTable’).innerHTML = ` <thead><tr><th>#</th><th>Question</th><th>Options</th><th>Answer</th><th>Actions</th></tr></thead> <tbody>${qs.length ? qs.map((q,i)=>`
+<tr>
+<td style="color:var(--text3);">${i+1}</td>
+<td style="font-size:0.82rem;max-width:220px;">${q.q}</td>
+<td style="font-size:0.75rem;color:var(--text2);">${q.opts.join(’ / ’)}</td>
+<td><span class="badge badge-success">${q.opts[q.correct]}</span></td>
+<td><button onclick="deleteQuestion('${selectedQuizCourseFilter}',${i})" style="background:var(--danger-light);color:var(--danger);border:none;border-radius:6px;padding:0.3rem 0.6rem;font-size:0.7rem;font-weight:700;cursor:pointer;">Delete</button></td>
+</tr>`).join('') : `<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:2rem;">No questions yet.</td></tr>`} </tbody>`;
+}
+
+function renderAdminProgress() {
+document.getElementById(‘progressTable’).innerHTML = ` <thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Lessons Done</th><th>Quiz Score</th><th>Certificate</th></tr></thead> <tbody>${students.map(s=>`
+<tr>
+<td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="avatar" style="width:28px;height:28px;font-size:0.7rem;">${s.name[0]}</div>${s.name}</div></td>
+<td style="font-size:0.8rem;">${s.enrolled}</td>
+<td><div style="display:flex;align-items:center;gap:0.5rem;"><div class="prog-bar" style="width:80px;"><div class="prog-fill blue" style="width:${s.progress}%"></div></div><strong>${s.progress}%</strong></div></td>
+<td style="font-size:0.82rem;">${Math.floor(s.progress/14)} / 8</td>
+<td><span class="badge ${s.progress>70?'badge-success':'badge-warning'}">${s.progress>80?‘85%’:s.progress>50?‘72%’:‘N/A’}</span></td>
+<td>${s.status===‘completed’?’<span class="badge badge-success">🏆 Issued</span>’:’<span class="badge badge-warning">Pending</span>’}</td>
+</tr>`).join('')} </tbody>`;
+}
+
+// ===== MODAL ACTIONS =====
+function openAddStudentModal() {
+const sel = document.getElementById(‘newStudentCourse’);
+if(sel) sel.innerHTML = allCourses.map(c=>`<option value="${c.title}">${c.lang}: ${c.title.substring(0,35)}</option>`).join(’’);
+document.getElementById(‘addStudentModal’).classList.add(‘open’);
+}
+function openAddCourseModal() { document.getElementById(‘addCourseModal’).classList.add(‘open’); }
+function openAddQuizModal() {
+const sel = document.getElementById(‘quizCourseSel’);
+if(sel) sel.innerHTML = allCourses.map(c=>`<option value="${c.id}">${c.lang}: ${c.title.substring(0,35)}</option>`).join(’’);
+document.getElementById(‘addQuizModal’).classList.add(‘open’);
+}
+function closeModal(id) { document.getElementById(id).classList.remove(‘open’); }
+
+function addStudent() {
+const first = document.getElementById(‘newStudentFirst’).value;
+const last = document.getElementById(‘newStudentLast’).value;
+const email = document.getElementById(‘newStudentEmail’).value;
+const course = document.getElementById(‘newStudentCourse’).value;
+if(!first || !email) { showToast(‘Please fill required fields’,‘error’); return; }
+students.push({ id: Date.now(), name:`${first} ${last}`, email, enrolled: course, progress:0, status:‘active’, joined:‘Apr 2026’ });
+closeModal(‘addStudentModal’);
+showToast(`${first} added successfully! 🎉`, ‘success’);
+renderAdminStudents();
+document.getElementById(‘newStudentFirst’).value=’’; document.getElementById(‘newStudentLast’).value=’’; document.getElementById(‘newStudentEmail’).value=’’;
+}
+
+window.removeStudent = function(id) {
+students = students.filter(s=>s.id!==id);
+showToast(‘Student removed’,‘success’);
+renderAdminStudents();
+};
+
+function addCourse() {
+const title = document.getElementById(‘newCourseTitle’).value;
+const lang = document.getElementById(‘newCourseLang’).value;
+const hours = parseInt(document.getElementById(‘newCourseDuration’).value) || 10;
+const desc = document.getElementById(‘newCourseDesc’).value || ‘No description provided.’;
+const url = document.getElementById(‘newCourseUrl’).value || ‘#’;
+if(!title) { showToast(‘Course title is required’,‘error’); return; }
+const langMap = { Python:{icon:‘🐍’,color:’#3b82f6’,bg:’#dbeafe’}, JavaScript:{icon:‘⚡’,color:’#f59e0b’,bg:’#fef3c7’}, Java:{icon:‘☕’,color:’#ef4444’,bg:’#fee2e2’}, ‘C++’:{icon:‘⚙️’,color:’#8b5cf6’,bg:’#ede9fe’}, ‘HTML/CSS’:{icon:‘🌐’,color:’#10b981’,bg:’#d1fae5’}, SQL:{icon:‘🗄️’,color:’#f97316’,bg:’#ffedd5’} };
+const lm = langMap[lang] || {icon:‘📚’,color:’#6366f1’,bg:’#eef2ff’};
+const id = ‘custom_’+Date.now();
+allCourses.push({ id, lang, title, provider:‘Custom Course’, icon:lm.icon, color:lm.color, bg:lm.bg, hours, lessons:5, source:url, desc, modules:[‘Introduction’,‘Core Concepts’,‘Practice’,‘Advanced Topics’,‘Project’] });
+adminQuizBank[id] = [];
+closeModal(‘addCourseModal’);
+showToast(`"${title.substring(0,25)}" added! 📚`, ‘success’);
+renderAdminCourses();
+document.getElementById(‘newCourseTitle’).value=’’; document.getElementById(‘newCourseDesc’).value=’’; document.getElementById(‘newCourseUrl’).value=’’;
+}
+
+window.deleteCourse = function(id) {
+allCourses = allCourses.filter(c=>c.id!==id);
+showToast(‘Course removed’,‘success’);
+renderAdminCourses();
+};
+
+function addQuizQuestion() {
+const courseId = document.getElementById(‘quizCourseSel’).value;
+const q = document.getElementById(‘newQText’).value;
+const a = document.getElementById(‘newQA’).value;
+const b = document.getElementById(‘newQB’).value;
+const c = document.getElementById(‘newQC’).value;
+const d = document.getElementById(‘newQD’).value;
+const correct = parseInt(document.getElementById(‘newQCorrect’).value);
+if(!q||!a||!b||!c||!d) { showToast(‘Please fill all fields’,‘error’); return; }
+if(!adminQuizBank[courseId]) adminQuizBank[courseId] = [];
+adminQuizBank[courseId].push({ q, opts:[a,b,c,d], correct });
+selectedQuizCourseFilter = courseId;
+closeModal(‘addQuizModal’);
+showToast(‘Question added! 📝’, ‘success’);
+renderAdminQuizzes();
+[‘newQText’,‘newQA’,‘newQB’,‘newQC’,‘newQD’].forEach(id=>document.getElementById(id).value=’’);
+}
+
+window.deleteQuestion = function(courseId, idx) {
+adminQuizBank[courseId].splice(idx, 1);
+showToast(‘Question deleted’,‘success’);
+renderQuizTable();
+};
+
+// ===== TOAST =====
+function showToast(msg, type=’’) {
+const t = document.getElementById(‘toast’);
+t.textContent = msg; t.className = ’toast ’ + type;
+setTimeout(()=>t.classList.add(‘show’),10);
+setTimeout(()=>t.classList.remove(‘show’),3000);
+}
+
+// Close modals on backdrop click
+document.querySelectorAll(’.modal-overlay’).forEach(m => {
+m.addEventListener(‘click’, e => { if(e.target === m) m.classList.remove(‘open’); });
+});
+
+// ===== INIT =====
+renderLanding();
+</script>
+
+</body>
+</html> 
